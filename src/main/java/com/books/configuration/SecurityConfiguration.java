@@ -40,6 +40,8 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+
+
     @Bean
     public AuthenticationManager authManager(UserDetailsService detailsService){
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
@@ -59,14 +61,14 @@ public class SecurityConfiguration {
                 auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
                 auth.anyRequest().authenticated();
             });
-            
+
         http.oauth2ResourceServer()
                 .jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
         http.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             );
-                
+
         return http.build();
     }
 
@@ -91,5 +93,5 @@ public class SecurityConfiguration {
         jwtConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtConverter;
     }
-    
+
 }
